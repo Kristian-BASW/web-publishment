@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:test_website_publishment/shared/widgets/styled_text_field.dart';
 
+import 'models/student.dart';
+
 class CreateStudentPage extends StatefulWidget {
   const CreateStudentPage({super.key});
 
@@ -16,15 +18,24 @@ class _CreateStudentPageState extends State<CreateStudentPage> {
         title: Text('Create a student'),
         backgroundColor: Colors.amber,
       ),
-
-      body: Container(
-        color: Colors.transparent,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          StyledTextField(hint: 'Type a name', label: 'Name'),
+          StyledTextField(hint: 'Type age of Student', label: 'Age'),
+        ],
+      ),
+      bottomSheet: Expanded(
         child: Row(
           children: [
-            Expanded(
-              child: Container(
-                padding: EdgeInsets.all(20),
-                child: StyledTextField(hintText: 'Type a name'),
+            Container(
+              padding: EdgeInsets.fromLTRB(20, 0, 10, 20),
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context, Student('test', 2));
+                },
+                child: Text('Test again'),
               ),
             ),
           ],

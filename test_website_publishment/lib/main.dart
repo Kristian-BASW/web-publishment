@@ -35,11 +35,16 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   List<Student> students = [Student('Tommy', 21)];
 
-  void createStudent() {
-    Navigator.push(
+  Future<void> createStudent() async {
+    Student? data = await Navigator.push<Student>(
       context,
       MaterialPageRoute(builder: (context) => CreateStudentPage()),
     );
+    if (data != null) {
+      setState(() {
+        this.students.add(data);
+      });
+    }
   }
 
   @override
