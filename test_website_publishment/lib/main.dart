@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:test_website_publishment/create_student_page.dart';
 import 'package:test_website_publishment/models/student.dart';
 import 'package:test_website_publishment/student-list.dart';
 
@@ -34,10 +35,16 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   List<Student> students = [Student('Tommy', 21)];
 
-  void addTest() {
-    setState(() {
-      students.add(Student('Mister tom', 20));
-    });
+  Future<void> createStudent() async {
+    Student? data = await Navigator.push<Student>(
+      context,
+      MaterialPageRoute(builder: (context) => CreateStudentPage()),
+    );
+    if (data != null) {
+      setState(() {
+        this.students.add(data);
+      });
+    }
   }
 
   @override
@@ -50,6 +57,7 @@ class _HomePageState extends State<HomePage> {
       body: Scrollbar(
         scrollbarOrientation: ScrollbarOrientation.right,
         thickness: 4,
+
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -57,15 +65,18 @@ class _HomePageState extends State<HomePage> {
               for (int i = 0; i < students.length; i++)
                 Container(
                   padding: EdgeInsets.all(10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      StudentList(
-                        name: students[i].name,
-                        age: students[i].age ?? 0,
-                      ),
-                    ],
+                  child: FittedBox(
+                    fit: BoxFit.fitWidth,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        StudentList(
+                          name: students[i].name,
+                          age: students[i].age ?? 0,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
             ],
@@ -73,8 +84,8 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: addTest,
-        tooltip: 'Increment',
+        onPressed: createStudent,
+        tooltip: 'Create new student',
         child: const Icon(Icons.add),
       ),
     );
